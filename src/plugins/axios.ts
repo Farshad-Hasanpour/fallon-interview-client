@@ -7,7 +7,7 @@ export default {
 		const {showSnackbar} = useSnackbarStore()
 
 		const axiosInstance = axios.create({
-			baseURL: import.meta.env.VITE_APP_API_BASE_URL,
+			baseURL: import.meta.env.VITE_APP_API_BASE_URL || 'http://localhost:8000/api/v1',
 			timeout: Number(import.meta.env.VITE_APP_API_TIMEOUT) || undefined,
 			headers: {
 				"Content-Type": "application/json",

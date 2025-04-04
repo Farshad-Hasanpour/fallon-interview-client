@@ -13,16 +13,19 @@
 				<v-list-item
 					v-for="(tabLink, tabName) in tabLinks"
 					:key="tabName"
-					:to="tabLink.route"
+					:to="tabLink.routeName"
 					exact
 					class="tw:h-[56px] pa-0"
-					:class="tab === tabName ? 'bg-surface-light text-primary' : ''"
+					:active="tab === tabName"
+					color="primary"
 					@click="selectTab(tabName)"
 				>
-					<div class="tw:w-full tw:h-full box-center tw:flex-col">
-						<v-icon>{{tabLink.icon}}</v-icon>
-						<span class="tw:text-xs">{{tabLink.title}}</span>
-					</div>
+					<template #prepend>
+						<div class="box-center tw:h-8 tw:w-8">
+							<v-icon>{{tabLink.icon}}</v-icon>
+						</div>
+					</template>
+					<v-list-item-title>{{tabLink.title}}</v-list-item-title>
 				</v-list-item>
 			</v-list>
 		</v-navigation-drawer>
@@ -74,14 +77,29 @@ const isDrawerShown = ref(false);
 
 // Set Default Tab using url
 type TabName = keyof typeof tabLinks;
-const tab = ref<TabName>('mentors');
+const tab = ref<TabName | null>(null);
 const tabLinks = {
 	mentors: {
-		route: '/dashboard',
-		icon: 'mdi-home',
+		routeName: '/dashboard/',
+		icon: 'mdi-account-star',
 		title: 'Mentors'
+	},
+	bookings: {
+		routeName: '/dashboard/bookings',
+		icon: 'mdi-book-account-outline',
+		title: 'Bookings'
 	}
 }
+watch(() => route.name, (newVal) => {
+	const tabNames = Object.keys(tabLinks) as TabName[];
+	for(let i = 0; i < tabNames.length; i++) {
+		const tabName = tabNames[i];
+		if(tabLinks[tabName].routeName === newVal){
+			tab.value = tabName;
+			return;
+		}
+	}
+}, {immediate: true})
 
 function selectTab(tabName: TabName){
 	if(tabName === tab.value) return;

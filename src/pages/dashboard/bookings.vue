@@ -1,6 +1,6 @@
 <template>
 <div class="tw:grow tw:overflow-y-auto py-6 px-2 tw:flex tw:flex-col">
-	Dashboard
+	Bookings
 </div>
 </template>
 
