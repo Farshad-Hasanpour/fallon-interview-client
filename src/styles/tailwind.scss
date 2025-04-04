@@ -1,0 +1,11 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme) prefix(tw);
+@import "tailwindcss/utilities.css" layer(utilities) prefix(tw);
+/* no preflight to prevent conflict with vuetify; */
+
+@theme {
+  --breakpoint-sm: 600px;
+  --breakpoint-md: 960px;
+  --breakpoint-lg: 1264px;
+  --breakpoint-xl: 1904px;
+}
