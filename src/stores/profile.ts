@@ -26,7 +26,7 @@ export const useProfileStore = defineStore('profile', () => {
 	function setToken(token: string){
 		localStorage.setItem('token', token);
 		email.value = getJwtPayload(token).email;
-		router.push('/dashboard/chat');
+		router.push('/dashboard');
 	}
 
 	return {
