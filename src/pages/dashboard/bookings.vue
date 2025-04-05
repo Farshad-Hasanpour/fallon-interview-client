@@ -13,7 +13,7 @@
 		>
 			<template v-slot:item.time="{ item }: {item: any}">
 				<template v-if="item.time">
-					<div class="tw:flex tw:items-center tw:justify-end tw:md:justify-center tw:gap-x-1">
+					<div class="tw:flex tw:items-center tw:justify-end">
 						<span class="mt-1">{{new Date(item.time).toLocaleString()}}</span>
 					</div>
 				</template>
