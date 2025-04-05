@@ -1,6 +1,5 @@
 <template>
 <div class="tw:grow tw:overflow-y-auto py-6 px-2 tw:flex tw:flex-col">
-	{{bookingStore.bookingMentorEmails}}
 	<v-data-table
 		:headers="headers"
 		:items="bookingStore.mentors"
