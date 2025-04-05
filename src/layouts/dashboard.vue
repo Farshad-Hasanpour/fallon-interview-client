@@ -1,5 +1,23 @@
 <template>
 	<v-layout class="dashboard-layout">
+		<v-app-bar
+			color="primary-darken-1"
+			class="px-1 px-md-4"
+			density="comfortable"
+			flat
+		>
+			<v-app-bar-nav-icon
+				v-if="isMobile"
+				@click="isDrawerShown = !isDrawerShown"
+			/>
+			<v-toolbar-title v-else-if="!isMobile" class="ms-0">O'Fallon Interview</v-toolbar-title>
+
+			<v-spacer></v-spacer>
+
+			<v-btn icon="mdi-logout" variant="text" @click="profileStore.logout()"></v-btn>
+
+		</v-app-bar>
+
 		<v-navigation-drawer
 			:model-value="isDrawerVisible"
 			:persistent="!isMobile"
@@ -29,24 +47,6 @@
 				</v-list-item>
 			</v-list>
 		</v-navigation-drawer>
-
-		<v-app-bar
-			color="primary-darken-1"
-			class="px-1 px-md-4"
-			density="comfortable"
-			flat
-		>
-			<v-app-bar-nav-icon
-				v-if="isMobile"
-				@click="isDrawerShown = !isDrawerShown"
-			/>
-			<v-toolbar-title v-else-if="!isMobile" class="ms-0">O'Fallon Interview</v-toolbar-title>
-
-			<v-spacer></v-spacer>
-
-			<v-btn icon="mdi-power" variant="text" @click="profileStore.logout()"></v-btn>
-
-		</v-app-bar>
 
 		<v-main class="tw:!flex tw:flex-col tw:items-stretch">
 			<router-view/>
@@ -81,13 +81,13 @@ const tab = ref<TabName | null>(null);
 const tabLinks = {
 	mentors: {
 		routeName: '/dashboard/',
-		icon: 'mdi-account-star',
+		icon: 'mdi-account-star-outline',
 		title: 'Mentors'
 	},
 	bookings: {
 		routeName: '/dashboard/bookings',
 		icon: 'mdi-book-account-outline',
-		title: 'Bookings'
+		title: 'My Bookings'
 	}
 }
 watch(() => route.name, (newVal) => {
