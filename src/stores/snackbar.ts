@@ -5,15 +5,19 @@ export const useSnackbarStore = defineStore('snackbar', () => {
 		show: false,
 		type: 'error',
 		message: '',
-		timeout: 10000,
+		timeoutId: null,
 	})
 
 	function showSnackbar(message = '', type = 'error', timeout = 10000) {
 		if(!message) return;
 
+		snackbar.timeoutId && clearTimeout(snackbar.timeoutId)
+		snackbar.timeoutId = setTimeout(() => {
+			hideSnackbar()
+		}, timeout)
+
 		snackbar.message = message;
 		snackbar.type = type;
-		snackbar.timeout = 10000;
 		snackbar.show = true;
 	}
 

@@ -8,7 +8,7 @@
 			:color="snackbarStore.snackbar.type"
 			:model-value="snackbarStore.snackbar.show"
 			:text="snackbarStore.snackbar.message"
-			:timeout="snackbarStore.snackbar.timeout"
+			:timeout="-1"
 		>
 			<template #actions>
 				<v-btn @click="snackbarStore.hideSnackbar()">
