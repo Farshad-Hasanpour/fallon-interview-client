@@ -1,5 +1,6 @@
 <template>
 <div class="tw:grow tw:overflow-y-auto py-6 px-2 tw:flex tw:flex-col">
+	{{bookingStore.bookingMentorEmails}}
 	<v-data-table
 		:headers="headers"
 		:items="bookingStore.mentors"
@@ -25,11 +26,18 @@
 					color="error"
 					size="small"
 					text="Book"
+					:disabled="bookingStore.bookingMentorEmails.includes(item.email)"
+					:loading="bookingStore.bookingMentorEmails.includes(item.email)"
 					@click="mentorToBook = item;"
 				/>
 			</div>
 		</template>
 	</v-data-table>
+	<DateTimePickerDialog
+		:model-value="!!mentorToBook"
+		@update:model-value="mentorToBook = $event ? mentorToBook : null"
+		@select="startBooking"
+	/>
 </div>
 </template>
 
@@ -40,6 +48,8 @@ meta:
 
 <script setup lang="ts">
 import {useBookingStore} from "@/stores/booking";
+// Lazy Components
+const DateTimePickerDialog = defineAsyncComponent(() => import('@/components/inputs/DateTimePickerDialog.vue'));
 
 const bookingStore = useBookingStore();
 bookingStore.fetchAllMentors();
@@ -53,6 +63,16 @@ const headers: any = Object.freeze([
 ])
 
 const mentorToBook = ref<Record<string, any> | null>();
+
+function startBooking(date: unknown){
+	if(!mentorToBook.value?.email) return;
+
+	const mentorEmail = mentorToBook.value.email;
+	const bookingTime = date instanceof Date ? date : null;
+	mentorToBook.value = null;
+
+	bookingStore.bookMeeting(mentorEmail, bookingTime)
+}
 </script>
 
 <style scoped>

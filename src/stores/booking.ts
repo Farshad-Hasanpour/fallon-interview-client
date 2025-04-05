@@ -10,7 +10,7 @@ export const useBookingStore = defineStore('booking', () => {
 
 	const fetchingMentors = ref(false);
 	const fetchingBookings = ref(false);
-	const settingMeeting = ref(false);
+	const bookingMentorEmails = ref<string[]>([]); // mentor email
 
 	function fetchAllMentors(){
 		fetchingMentors.value = true;
@@ -31,16 +31,19 @@ export const useBookingStore = defineStore('booking', () => {
 	}
 
 	function bookMeeting(mentorEmail: string, time: Date | null){
-		settingMeeting.value = true;
+		bookingMentorEmails.value.push(mentorEmail);
 		return $http.post('/bookings', {
 			mentorEmail,
 			time: time?.toISOString()
 		}).then((res: any) => {
-			if(res.data.data.message){
-				snackbarStore.showSnackbar(res.data.data.message, 'success')
-			}
+			const time = !res.data.data.time ? 'earliest available time' : new Date(res.data.data.time).toLocaleString()
+			const message = `You booked a meeting with ${res.data.data.mentor.name} for ${time}`
+			snackbarStore.showSnackbar(message, 'success')
 		}).finally(() => {
-			settingMeeting.value = false;
+			const indexToDelete = bookingMentorEmails.value.findIndex(email => email === mentorEmail);
+			if(indexToDelete > -1){
+				bookingMentorEmails.value.splice(indexToDelete, 1)
+			}
 		})
 	}
 
@@ -48,7 +51,7 @@ export const useBookingStore = defineStore('booking', () => {
 		// loaders
 		fetchingBookings,
 		fetchingMentors,
-		settingMeeting,
+		bookingMentorEmails,
 		// data
 		mentors,
 		bookings,
