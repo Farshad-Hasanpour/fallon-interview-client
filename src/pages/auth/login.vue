@@ -4,7 +4,7 @@
 			<v-card-title class="text-center">Login</v-card-title>
 			<v-card-subtitle class="text-center">Access your account</v-card-subtitle>
 
-			<v-form ref="formRef" :disabled="!valid" v-model="valid">
+			<v-form ref="formRef" v-model="valid">
 				<v-text-field
 					v-model="email"
 					label="Email"

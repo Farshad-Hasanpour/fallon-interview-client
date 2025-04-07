@@ -4,7 +4,7 @@
 			<v-card-title class="text-center">Sign Up</v-card-title>
 			<v-card-subtitle class="text-center">Create an account</v-card-subtitle>
 
-			<v-form ref="formRef" :disabled="!valid" v-model="valid">
+			<v-form ref="formRef" v-model="valid">
 				<v-text-field
 					v-model="name"
 					label="Full Name"
